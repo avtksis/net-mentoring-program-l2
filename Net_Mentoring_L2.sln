@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version 1 AsyncAwait", "Ver
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version 2 Complex", "Version 2 Complex", "{7F1A821D-2C40-4173-8935-47D189DBF6C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async_1", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_1\Async_1.csproj", "{CFA533B7-D972-4F97-99A8-1E8AFFE7975A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Async_1", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_1\Async_1.csproj", "{CFA533B7-D972-4F97-99A8-1E8AFFE7975A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async_2", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_2\Async_2.csproj", "{BA05F3C2-FCA4-4454-A6AD-70C4137DB946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Async_2", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_2\Async_2.csproj", "{BA05F3C2-FCA4-4454-A6AD-70C4137DB946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async_3", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_3\Async_3.csproj", "{B282517A-D256-423A-8A8E-69A940969969}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Async_3", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_3\Async_3.csproj", "{B282517A-D256-423A-8A8E-69A940969969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async_4", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_4\Async_4.csproj", "{F99CD091-54BD-4903-B507-055B58C40094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Async_4", "Module 1 - MultiThreading\Version 1 AsyncAwait\Async_4\Async_4.csproj", "{F99CD091-54BD-4903-B507-055B58C40094}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multithreading", "Module 1 - MultiThreading\Version 1 Multithreading\Multithreading\Multithreading.csproj", "{16ED254C-EAA6-4AE8-8C35-8BC9F2CCDA5B}"
 EndProject
@@ -25,9 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 1", "Task 1", "{692550
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 2", "Task 2", "{76EAB5F0-6B1D-4A37-A5F1-B8C5A08B6BD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Module 1 - MultiThreading\Version 2\Task 1\Client\Client.csproj", "{52E36301-88A7-4634-A37C-9D9B78280877}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatClient", "Module 1 - MultiThreading\Version 2\Task 1\Client\ChatClient.csproj", "{52E36301-88A7-4634-A37C-9D9B78280877}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Module 1 - MultiThreading\Version 2\Task 1\Server\Server.csproj", "{BCD2E1BD-5680-49C9-9BDD-776AC3378D83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatServer", "Module 1 - MultiThreading\Version 2\Task 1\Server\ChatServer.csproj", "{BCD2E1BD-5680-49C9-9BDD-776AC3378D83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

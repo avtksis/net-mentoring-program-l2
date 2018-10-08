@@ -94,57 +94,70 @@ namespace Multithreading
                 return matrice;
             }
 
+            int[,] MultiplyMatrices(int[,] firstMatrice, int[,] secondMatrice)
+            {
+                var result = new int[firstMatrice.GetLength(0), secondMatrice.GetLength(1)];
+
+                Parallel.For(0, firstMatrice.GetLength(0), i =>
+                {
+                    for (int j = 0; j < secondMatrice.GetLength(1); j++)
+                    {
+                        for (int k = 0; k < secondMatrice.GetLength(0); k++)
+                        {
+                            result[i, j] += firstMatrice[i, k] * secondMatrice[k, j];
+                        }
+                    }
+                });
+
+                return result;
+            }
+
+            void PrintMatrice(int[,] matrice)
+            {
+                string row = String.Empty;
+
+                for (int i = 0; i < matrice.GetLength(0); i++)
+                {
+                    for (int j = 0; j < matrice.GetLength(1); j++)
+                    {
+                        row = $"{row} {matrice[i, j]}";
+                    }
+                    _output.WriteLine(row);
+                    row = String.Empty;
+                }
+
+                _output.WriteLine("");
+            }
+
             var matriceFirst = CreateMatrice(5, 5);
             var matriceSecond = CreateMatrice(5, 5);
 
+            PrintMatrice(matriceFirst);
+            
+            PrintMatrice(matriceSecond);
+
+            PrintMatrice(MultiplyMatrices(matriceFirst, matriceSecond));
+            
             Assert.True(false);
         }
 
         [Fact]
         public void Task4()
         {
-            Assert.True(false);
-        }
-
-        [Fact]
-        public void Task5()
-        {
-            Assert.True(false);
-        }
-
-        [Fact]
-        public void Task6()
-        {
-            var sequence = new List<int>();
-
-            List<int> SafeAccess()
+            void TreadRecursion(object number)
             {
-                object locker = new object();
+                var convertedNumbernumber = (int) number;
+                convertedNumbernumber--;
+                _output.WriteLine($"{convertedNumbernumber} from thread #{Thread.CurrentThread.ManagedThreadId}");
 
-                lock (locker)
-                {
-                    return sequence;
-                }
+                if (convertedNumbernumber <= 0) return;
+
+                var thread = new Thread(TreadRecursion);
+                thread.Start(convertedNumbernumber);
+                thread.Join();
             }
 
-         
-
-            new Thread((object obj) =>
-            {
-                int elementCount = sequence.Count;
-
-                while (elementCount <= 10 && elementCount > 0)
-                {
-                    _output.WriteLine(SafeAccess().Last().ToString());
-                }
-            }).Start();
-
-            new Thread((object obj) =>
-            {
-                for (int i = 0; i < 10; i++) SafeAccess().Add(i);
-            }).Start();
-
-            Thread.Sleep(5000);
+            TreadRecursion(10);
         }
     }
 }

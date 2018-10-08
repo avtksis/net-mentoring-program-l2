@@ -1,62 +1,106 @@
 ﻿using System;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Net.Sockets;
 
-namespace Client
+namespace ChatClient
 {
     class Program
     {
-        private static readonly IPHostEntry IpHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        private static readonly IPAddress IpAddress = IpHostInfo.AddressList[0];
-        private static readonly IPEndPoint EndPoint = new IPEndPoint(IpAddress, 11000);
+        static string _userName;
+        private const string IpAdress = "127.0.0.1";
+        private const int Port = 5555;
+        static TcpClient _client;
+        static NetworkStream _stream;
 
-        private static readonly Socket SocketSender = new Socket(IpAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        private static readonly object Locker = new object();
 
         static void Main(string[] args)
         {
+            Console.Write("Please, enter your name: ");
+            _userName = Console.ReadLine();
+            _client = new TcpClient();
             try
             {
-                SocketSender.Connect(EndPoint);
-
-                Console.WriteLine("Socket connected to {0}", SocketSender.RemoteEndPoint);
-
-                // Encode the data string into a byte array.  
-                byte[] msg = Encoding.ASCII.GetBytes("This is a test<EOF>");
-
-                // Send the data through the socket.  
-                for (int i = 0; i < 10; i++)
-                {
-                    int bytesSent = SocketSender.Send(msg);
-                    Thread.Sleep(1000);
-                }
+                _client.Connect(IpAdress, Port); 
+                _stream = _client.GetStream(); 
                 
-                byte[] bytes = new byte[1024];
+                string message = _userName;
+                byte[] data = Encoding.Unicode.GetBytes(message);
 
-                // Receive the response from the remote device.  
-                int bytesRec = SocketSender.Receive(bytes);
-                Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                _stream.Write(data, 0, data.Length);
+                
+                Console.WriteLine("Welcome, {0}", _userName);
+                
+                Thread receiveThread = new Thread(ReceiveMessage);
+                receiveThread.Start(); 
 
-                // Release the socket.  
-                SocketSender.Shutdown(SocketShutdown.Both);
-                SocketSender.Close();
+                Thread sendThread = new Thread(SendMessage);
+                sendThread.Start();
 
+                Thread.CurrentThread.Join();
             }
-            catch (ArgumentNullException ane)
+            catch (Exception ex)
             {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                Console.WriteLine(ex.Message);
             }
-            catch (SocketException se)
+            finally
             {
-                Console.WriteLine("SocketException : {0}", se.ToString());
+                Disconnect();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            }
+        }
 
-            Console.Read();
+        static void SendMessage()
+        {
+            Console.WriteLine("Message: ");
+
+            while (true)
+            {
+                string message = $"test message from {_userName}";
+               
+                byte[] data = Encoding.Unicode.GetBytes(message);
+
+                _stream.Write(data, 0, data.Length);
+ 
+                Thread.Sleep(2000);
+            }
+        }
+
+        static void ReceiveMessage()
+        {
+            while (true)
+            {
+                try
+                {
+
+                    byte[] data = new byte[64];
+                    StringBuilder builder = new StringBuilder();
+
+                    do
+                    {
+                        var streamDataLenght = _stream.Read(data, 0, data.Length);
+                        builder.Append(Encoding.Unicode.GetString(data, 0, streamDataLenght));
+                    } while (_stream.DataAvailable);
+
+                    var message = builder.ToString();
+                    Console.WriteLine(message);
+                }
+                catch
+                {
+                    Console.WriteLine("Connection aborted!"); 
+                    Console.ReadLine();
+                    Disconnect();
+                }
+            }
+        }
+
+        static void Disconnect()
+        {
+            _stream?.Close();
+            _client?.Close();
+
+            Environment.Exit(0);
         }
     }
 }
